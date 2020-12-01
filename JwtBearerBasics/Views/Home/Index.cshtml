@@ -1,0 +1,10 @@
+﻿<h2>Index page</h2>
+<a href="@Url.Action("Secret", "Home")">Secret</a>
+<br>
+<a href="@Url.Action("Auth", "Home")">Auth</a>
+<br>
+<br>
+<a href="@Url.Action("Decode", "Home", new {part="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"})">Decode - Header</a>
+<br>
+<a href="@Url.Action("Decode", "Home", new {part="eyJzdWIiOiJzb21lX2lkIiwiYW55X290aGVyX2NsYWltIjoiY2xhaW1feHh4IiwibmJmIjoxNjA2ODMxMTI4LCJleHAiOjE2MDY5MTc1MjgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzQzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzQzLyJ9"})">Decode - Payload</a>
+<br>
