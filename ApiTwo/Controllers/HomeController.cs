@@ -8,6 +8,7 @@ namespace ApiTwo.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+
         public HomeController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
@@ -21,7 +22,7 @@ namespace ApiTwo.Controllers
             var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:44301/");
 
             var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
-                new ClientCredentialsTokenRequest 
+                new ClientCredentialsTokenRequest
                 {
                     Address = discoveryDocument.TokenEndpoint,
                     ClientId = "client_id",

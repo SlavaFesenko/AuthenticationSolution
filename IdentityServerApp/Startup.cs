@@ -10,16 +10,8 @@ namespace IdentityServerApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddIdentityServer()
-            //    .AddInMemoryApiScopes(apiScopes: Configuration.GetApiScopes())
-            //    .AddInMemoryApiResources(apiResources: Configuration.GetApis())
-            //    .AddInMemoryClients(clients: Configuration.GetClients())
-                //.AddDeveloperSigningCredential();
-
             services.AddIdentityServer()
-                //.AddInMemoryPersistedGrants()
                 .AddInMemoryApiScopes(Configuration.ApiScopes)
-                //.AddInMemoryIdentityResources(Configuration.IdentityResources)
                 .AddInMemoryApiResources(Configuration.ApiResources)
                 .AddInMemoryClients(Configuration.Clients)
                 .AddDeveloperSigningCredential();

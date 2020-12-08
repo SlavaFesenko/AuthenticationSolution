@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using static System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 
 namespace ApiOne
 {
@@ -13,47 +11,32 @@ namespace ApiOne
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddAuthentication("Bearer")
-            //    .AddJwtBearer("Bearer", config =>
-            //    {
-            //        config.Authority = "https://localhost:44301/";
-            //        config.Audience = "api1";
-            //    });
-
-            
-
-            services.AddAuthentication(o =>
-            {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }
-            ).AddJwtBearer(cfg =>
-                {
-                    cfg.Authority = "https://localhost:44301/";
-                    cfg.Audience = "api1";
-                    cfg.TokenValidationParameters.ValidateAudience = false;
-
-                    cfg.Events = new JwtBearerEvents()
+            services
+                .AddAuthentication(
+                    options =>
                     {
-                        OnAuthenticationFailed = c =>
+                        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                .AddJwtBearer(
+                    options =>
+                    {
+                        options.Authority = "https://localhost:44301/"; // IdentityServer4 app instance API 
+                        options.Audience = "api1"; // who is this app
+
+                        // fix needed to say IdentityServer4 that it should not validate ///
+                        options.TokenValidationParameters.ValidateAudience = false;
+
+                        options.Events = new JwtBearerEvents()
                         {
-                            // do some logging or whatever...
+                            OnAuthenticationFailed = c =>
+                            {
+                                // do some logging or whatever...
 
-                            return CompletedTask;
-                        }
-
-                    };
-                    //cfg.RequireHttpsMetadata = false;
-                    //cfg.SaveToken = true;
-
-                    //cfg.TokenValidationParameters = new TokenValidationParameters()
-                    //{
-                    //    ValidAudience = jwtAudience,
-                    //    ValidIssuer = jwtIssuer,
-                    //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecurityKey))
-                    //};
-
-                });
+                                return Task.CompletedTask;
+                            }
+                        };
+                    });
 
             services.AddControllers();
         }
